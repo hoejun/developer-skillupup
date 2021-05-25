@@ -1,7 +1,7 @@
 const Triangle = (row, col) => {
-  if (col === 0) {
+  if (col === 0 || col === row) {
     return 1;
-  } else if (row === 0) {
+  } else if (col < 0 || row < col) {
     return 0;
   } else {
     return Triangle(row - 1, col) + Triangle(row - 1, col - 1);

@@ -12,6 +12,7 @@ function App() {
 
   const getData = () => {
     setData(AddressData);
+    console.log('1');
   };
   useEffect(() => {
     getData();

@@ -1,4 +1,4 @@
-interface IInformation {
+export interface IInformation {
   id: number;
   name: string;
   age: number;
@@ -6,4 +6,4 @@ interface IInformation {
   number: string;
 }
 
-export type { IInformation };
+// export type { IInformation };

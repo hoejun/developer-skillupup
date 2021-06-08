@@ -1,25 +1,24 @@
-import { useEffect } from 'react';
 import '../App.css';
-import addressData from '../data/address.json';
 import { searchState, profileState, informationState } from '../recoil/atom';
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { IInformation } from '../type/index';
+// import { UpdateButton, RemoveButton } from './route/route';
 
 const ProfileList = () => {
   const [profileRecoil, setProfileRecoil] =
     useRecoilState<IInformation[]>(profileState);
-  const searchRecoil = useRecoilValue(searchState);
+  const searchRecoil = useRecoilValue<string>(searchState);
   const setInformationRecoil =
     useSetRecoilState<IInformation | undefined>(informationState);
 
-  useEffect(() => {
-    setProfileRecoil(addressData);
-  });
+  // function removeItem(arr: any, index: any) {
+  //   return [...arr.slice(0, index), ...arr.slice(index + 1)];
+  // }
 
   return (
     <div className='contact-list'>
       <ul>
-        {profileRecoil.map((item) => {
+        {profileRecoil.map((item: IInformation) => {
           return item.name.indexOf(searchRecoil) === -1 ? (
             false
           ) : (
@@ -31,6 +30,19 @@ const ProfileList = () => {
               >
                 {item.name}
               </button>
+              <button
+                type='button'
+                onClick={() => {
+                  const newFilter = profileRecoil.filter(
+                    (id) => id.id !== item.id
+                  );
+                  setProfileRecoil(newFilter);
+                }}
+              >
+                삭제
+              </button>
+              {/* <UpdateButton />
+              <RemoveButton data={item} /> */}
             </li>
           );
         })}

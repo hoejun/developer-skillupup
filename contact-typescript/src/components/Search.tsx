@@ -3,11 +3,10 @@ import { useRecoilState } from 'recoil';
 import { searchState } from '../recoil/atom';
 
 const Search = () => {
-  const [searchRecoil, setSearchRecoil] = useRecoilState(searchState);
+  const [searchRecoil, setSearchRecoil] = useRecoilState<string>(searchState);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchRecoil(event.target.value);
-    console.log(searchRecoil);
   };
 
   return (

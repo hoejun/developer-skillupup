@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import addressData from '../data/address.json';
 import { IInformation } from '../type/index';
 
 const searchState = atom<string>({
@@ -8,7 +9,7 @@ const searchState = atom<string>({
 
 const profileState = atom<IInformation[]>({
   key: 'profileState',
-  default: [],
+  default: addressData,
 });
 
 const informationState = atom<IInformation | undefined>({

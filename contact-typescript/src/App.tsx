@@ -1,5 +1,9 @@
-// import React from 'react';
-import { Search, ProfileList, Information } from './components/route/route';
+import {
+  Search,
+  ProfileList,
+  Information,
+  CreateButton,
+} from './components/route/route';
 import './App.css';
 
 function App() {
@@ -14,6 +18,9 @@ function App() {
         <div className='col right'>
           <Information />
         </div>
+      </div>
+      <div>
+        <CreateButton />
       </div>
     </div>
   );

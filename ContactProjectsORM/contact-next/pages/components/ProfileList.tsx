@@ -1,64 +1,57 @@
-import { searchState, profileState, responseState } from '../recoil/atom';
+import React, { useEffect } from 'react';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import {
-  useSetRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-} from 'recoil';
+  searchState,
+  profileState,
+  responseState,
+  informationState,
+} from '../recoil/recoilAPI';
 import { IProfile } from '../type/index';
-import '../config/i18n';
+import { requests } from '../config/api';
 
 const ProfileList = () => {
-  const response = useRecoilValueLoadable<object>(responseState);
+  const setProfile = useSetRecoilState<IProfile[]>(profileState);
+  const setInformation =
+    useSetRecoilState<IProfile | undefined>(informationState);
   const search = useRecoilValue(searchState);
-  const setProfile = useSetRecoilState<object>(profileState);
-  const { state } = response;
+  const responseValue = useRecoilValue(responseState);
 
-  switch (state) {
-    case 'hasValue':
-      // const {
-      //   contents: [data],
-      // } = response;
-      return (
-        <div className='contact-list'>
-          <ul>
-            {!response.contents.length ? (
-              <li>비어있음</li>
+  useEffect(() => {
+    requests
+      .get('user')
+      .then((res) => {
+        setProfile(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <div className='contact-list'>
+      <ul>
+        {!responseValue.length ? (
+          <li>비어있음 </li>
+        ) : (
+          responseValue.map((item: any) => {
+            return item.name.indexOf(search) === -1 ? (
+              false
             ) : (
-              response.contents.map((item: any) => {
-                return item.name.indexOf(search) === -1 ? (
-                  false
-                ) : (
-                  <li key={item.id}>
-                    <button
-                      type='button'
-                      className='selected'
-                      onClick={() => setProfile(item)}
-                    >
-                      {item.name}
-                    </button>
-                  </li>
-                );
-              })
-            )}
-            {/* response.contents.map((item: any) => (
-                 <li key={item.id}>
-                   <button
-                     type='button'
-                     className='selected'
-                     // onClick={() => setInformationRecoil(item)}
-                   >
-                     {item.name}
-                   </button>
-                 </li>
-              )) */}
-          </ul>
-        </div>
-      );
-    case 'loading':
-      return <div>Loading...</div>;
-    case 'hasError':
-      return <div>There is some problem.</div>;
-  }
+              <li key={item.id}>
+                <button
+                  type='button'
+                  className='selected'
+                  onClick={() => setInformation(item)}
+                >
+                  {item.name}
+                </button>
+              </li>
+            );
+          })
+        )}
+      </ul>
+    </div>
+  );
 };
 
 export default ProfileList;

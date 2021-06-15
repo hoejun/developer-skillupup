@@ -8,9 +8,6 @@ const Home = () => {
         <LeftBox />
         <RightBox />
       </div>
-      {/* <div>
-        <CreateButton />
-      </div> */}
     </div>
   );
 };

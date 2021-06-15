@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { searchState } from '../recoil/atom';
+import { searchState } from '../recoil/recoilAPI';
 
 const Search = () => {
   const [search, setSearch] = useRecoilState(searchState);

@@ -1,7 +1,12 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ObjectType, Field, InputType, ID } from '@nestjs/graphql';
 
+@InputType()
 export class CreateUserDto {
   //타입 유효성 검사
+  @IsNotEmpty()
+  id: number;
+
   @IsNotEmpty()
   name: string;
 

@@ -2,8 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
-import { User } from '../data/user';
-import listData from '../data/listData.json';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -12,14 +10,16 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-  ) {}
+  ) {
+    this.userRepository = userRepository;
+  }
 
+  //전체 조회
   findAll(): Promise<UserEntity[]> {
-    //전체 조회
     return this.userRepository.find();
   }
+  //부분 조회
   findOne(id: number): Promise<UserEntity> {
-    //부분 조회
     const user = this.userRepository.findOne(id);
 
     if (!user) {
@@ -28,12 +28,19 @@ export class UserService {
 
     return user;
   }
-  async create(userData: UserEntity): Promise<void> {
-    //생성
+  //생성
+  // async create(userData: UserEntity): Promise<UserEntity[]> {
+  async create(userData: UserEntity) {
     await this.userRepository.save(userData);
+    // return Object.assign({
+    //   data: { ...userData },
+    //   statusCode: 201,
+    //   statusMsg: `saved successfully`,
+    // });
+    return this.userRepository.find();
   }
-  async update(id: number, updateData: UserEntity) {
-    //수정
+  //수정
+  async update(id: number, updateData: UpdateUserDto) {
     const user = await this.userRepository.findOne(id);
 
     user.id = id;
@@ -44,9 +51,11 @@ export class UserService {
 
     return this.userRepository.save(user);
   }
-  async deleteOne(userId: number): Promise<void> {
-    //부분 삭제
+  //부분 삭제
+  async deleteOne(userId: number): Promise<UserEntity[]> {
     await this.userRepository.delete(userId);
+
+    return this.userRepository.find();
   }
 
   // private users: User[] = listData;

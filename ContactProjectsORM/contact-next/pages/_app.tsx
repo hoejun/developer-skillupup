@@ -1,13 +1,13 @@
-import { AppProps } from 'next/app';
 import React from 'react';
+import { AppProps } from 'next/app';
 import { RecoilRoot } from 'recoil';
 import '../styles/App.css';
-// import './config/i18n';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <RecoilRoot>
       {/* <React.Suspense fallback={<div>Loading.....</div>}> */}
+      {/* <React.Suspense fallback={null}> */}
       <Component {...pageProps} />
       {/* </React.Suspense> */}
     </RecoilRoot>

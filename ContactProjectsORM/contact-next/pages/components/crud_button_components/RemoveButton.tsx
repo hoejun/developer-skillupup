@@ -1,26 +1,23 @@
-import {
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-  useRecoilStateLoadable,
-  useRecoilValueLoadable,
-} from 'recoil';
-import { cardState, deleteProducts } from '../../recoil/atom';
-import axios from 'axios';
-import '../../config/i18n';
+import { useSetRecoilState } from 'recoil';
+import { profileState, responseState } from '../../recoil/recoilAPI';
+import { requests } from '../../config/api';
+import { IProfile } from '../../type/index';
 
 const RemoveButton = (id) => {
-  const [card, setCard] = useRecoilState<number>(cardState);
+  // const setProfile = useSetRecoilState<IProfile[]>(profileState);
+  const setResponseValue = useSetRecoilState(responseState);
+
   const onHandleRemove = () => {
-    axios
-      .delete(`http://localhost:3000/user/${id.id}`)
+    requests
+      .delete(`user/${id.id}`)
       .then((res) => {
-        console.log(res);
+        setResponseValue(res.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
+
   return (
     <div>
       <button type='button' onClick={onHandleRemove}>

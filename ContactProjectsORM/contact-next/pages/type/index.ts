@@ -3,5 +3,5 @@ export interface IProfile {
   name: string;
   age: number;
   address: string;
-  number: string;
+  phone: string;
 }

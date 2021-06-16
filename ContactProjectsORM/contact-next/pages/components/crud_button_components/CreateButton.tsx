@@ -4,16 +4,6 @@ import { profileState, responseState } from '../../recoil/recoilAPI';
 import { IProfile } from '../../type/index';
 import { requests } from '../../config/api';
 
-interface IProfileProps {
-  handleData: (form: {
-    id: number;
-    name: string;
-    age: number;
-    address: string;
-    number: string;
-  }) => void;
-}
-
 const CreateButton = () => {
   // const [profileRecoil, setProfileRecoil] =
   //   useRecoilState<IProfile[]>(profileState);
@@ -23,48 +13,39 @@ const CreateButton = () => {
     name: '',
     age: 0,
     address: '',
-    number: '',
+    phone: '',
   });
 
-  const { id, name, age, address, number } = text;
+  const { id, name, age, address, phone } = text;
 
   const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setText({
       ...text,
       id: responseValue.length + 1, //숫자
       [name]: value,
     });
   };
-  const onSubmit = (form: {
-    id: number;
-    name: string;
-    age: number;
-    address: string;
-    number: string;
-  }) => {
-    console.log(typeof form.age);
-  };
 
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(text);
-    console.log(text);
     requests
       .post('user', {
-        text,
+        id: text.id,
+        name: text.name,
+        age: text.age,
+        address: text.address,
+        phone: text.phone,
       })
       .then((res) => {
-        console.log(res);
-        // setResponseValue(res.data);
+        setResponseValue(res.data);
         //초기화
         // setText({
         //   id: 0,
         //   name: '',
         //   age: 0,
         //   address: '',
-        //   number: '',
+        //   phone: '',
         // });
       })
       .catch((error) => {
@@ -76,10 +57,10 @@ const CreateButton = () => {
     <div className='contact-add'>
       <form onSubmit={onHandleSubmit}>
         <div>
-          <input type='text' name='name' onChange={onHandleChange} />
-          <input type='number' name='age' onChange={onHandleChange} />
-          <input type='text' name='address' onChange={onHandleChange} />
-          <input type='text' name='number' onChange={onHandleChange} />
+          <input name='name' onChange={onHandleChange} />
+          <input name='age' onChange={onHandleChange} />
+          <input name='address' onChange={onHandleChange} />
+          <input name='phone' onChange={onHandleChange} />
         </div>
         <button type='submit'>추가</button>
       </form>

@@ -11,6 +11,6 @@ export const requests = {
   get: (url: string) => apiConfig.get(url),
   post: (url: string, body: {}) => apiConfig.post(url, body),
   // put: (url: string, body: {}) => apiConfig.put(url, body).then(responseBody),
-  put: (url: string, body: {}) => apiConfig.put(url, body).then(responseBody),
+  patch: (url: string, body: {}) => apiConfig.patch(url, body),
   delete: (url: string) => apiConfig.delete(url),
 };

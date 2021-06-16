@@ -14,7 +14,7 @@ const Information = () => {
           <li>이름: {Information.name}</li>
           <li>나이: {Information.age}</li>
           <li>주소: {Information.address}</li>
-          <li>연락처: {Information.number}</li>
+          <li>연락처: {Information.phone}</li>
           <UpdateButton contents={Information} />
           <RemoveButton id={Information.id} />
         </ul>

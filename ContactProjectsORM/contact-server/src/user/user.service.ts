@@ -30,8 +30,8 @@ export class UserService {
   }
   //생성
   // async create(userData: UserEntity): Promise<UserEntity[]> {
-  async create(userData: UserEntity) {
-    await this.userRepository.save(userData);
+  create(userData: any) {
+    this.userRepository.save(userData);
     // return Object.assign({
     //   data: { ...userData },
     //   statusCode: 201,
@@ -40,20 +40,23 @@ export class UserService {
     return this.userRepository.find();
   }
   //수정
-  async update(id: number, updateData: UpdateUserDto) {
+  async update(id: number, updateData: any) {
     const user = await this.userRepository.findOne(id);
 
     user.id = id;
     user.name = updateData.name;
     user.age = updateData.age;
     user.address = updateData.address;
-    user.number = updateData.number;
+    user.phone = updateData.phone;
 
-    return this.userRepository.save(user);
+    // return this.userRepository.save(user);
+    this.userRepository.save(user);
+
+    return this.userRepository.find();
   }
   //부분 삭제
-  async deleteOne(userId: number): Promise<UserEntity[]> {
-    await this.userRepository.delete(userId);
+  deleteOne(userId: number): Promise<UserEntity[]> {
+    this.userRepository.delete(userId);
 
     return this.userRepository.find();
   }

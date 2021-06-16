@@ -15,5 +15,5 @@ export class UserEntity {
   address: string;
 
   @Column()
-  number: string;
+  phone: string;
 }

@@ -24,11 +24,14 @@ export class UserController {
     return await this.userService.findAll();
   }
   @Post()
-  async create(@Body() userData: CreateUserDto) {
+  // async create(@Body() userData: UserEntity) {
+  async create(@Body() userData: any) {
+    console.log(userData);
     return await this.userService.create(userData);
   }
   @Patch('/:id')
-  async patch(@Param('id') userId: number, @Body() updateData: UpdateUserDto) {
+  // async patch(@Param('id') userId: number, @Body() updateData: UpdateUserDto) {
+  async patch(@Param('id') userId: number, @Body() updateData: any) {
     return await this.userService.update(userId, updateData);
   }
   @Delete('/:id')

@@ -13,6 +13,7 @@ const profileState = atom<IProfile[]>({
   default: [],
 });
 
+//오른쪽 개인 정보
 const informationState = atom<IProfile | undefined>({
   key: 'informationState',
   default: undefined,

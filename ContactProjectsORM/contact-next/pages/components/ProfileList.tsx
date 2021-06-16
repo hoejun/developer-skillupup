@@ -6,15 +6,16 @@ import {
   responseState,
   informationState,
 } from '../recoil/recoilAPI';
-import { IProfile } from '../type/index';
+import { IProfile } from '../type/interfaces';
 import { requests } from '../config/api';
 
+//함수 타입에 인터페이스를 사용하는 경우 인터페이스 다입티 선언된 파라미터 리스트와 리턴 타입을 정의해주어야 한다
 const ProfileList = () => {
   const setProfile = useSetRecoilState<IProfile[]>(profileState);
   const setInformation =
     useSetRecoilState<IProfile | undefined>(informationState);
   const search = useRecoilValue(searchState);
-  const responseValue = useRecoilValue(responseState);
+  const responseValue = useRecoilValue<IProfile[]>(responseState);
 
   useEffect(() => {
     requests

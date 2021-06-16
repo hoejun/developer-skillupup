@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  profileState,
-  responseState,
-  informationState,
-} from '../../recoil/recoilAPI';
+import { useSetRecoilState } from 'recoil';
+import { profileState } from '../../recoil/recoilAPI';
 import { requests } from '../../config/api';
-import { IProfile } from '../../type/index';
+import { IProfile } from '../../type/interfaces';
 
-const UpdateButton = (contents: any) => {
+interface IProfileProps {
+  contents: IProfile;
+}
+
+const UpdateButton = ({ contents }: IProfileProps) => {
+  const setProfile = useSetRecoilState<IProfile[]>(profileState);
   const [toggle, setToggle] = useState(false);
-  const [responseValue, setResponseValue] = useRecoilState(responseState);
-  const [Information, setInformation] =
-    useRecoilState<IProfile | undefined>(informationState);
-
   const [text, setText] = useState({
     id: 0,
     name: '',
@@ -23,8 +20,8 @@ const UpdateButton = (contents: any) => {
   });
   const { name, age, address, phone } = text;
 
-  const onHandleChange = (e: any) => {
-    const { value, name } = e.target;
+  const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setText({
       ...text,
       [name]: value,
@@ -33,17 +30,17 @@ const UpdateButton = (contents: any) => {
 
   const onHandleToggle = () => {
     setText({
-      id: contents.contents.id,
-      name: contents.contents.name,
-      age: contents.contents.age,
-      address: contents.contents.address,
-      phone: contents.contents.phone,
+      id: contents.id,
+      name: contents.name,
+      age: contents.age,
+      address: contents.address,
+      phone: contents.phone,
     });
     if (!toggle) {
       setToggle(true);
     } else {
       requests
-        .patch(`user/${contents.contents.id}`, {
+        .patch(`user/${contents.id}`, {
           id: text.id,
           name: text.name,
           age: text.age,
@@ -51,7 +48,7 @@ const UpdateButton = (contents: any) => {
           phone: text.phone,
         })
         .then((res) => {
-          setResponseValue(res.data);
+          setProfile(res.data);
           //초기화
           // setText({
           //   id: 0,
@@ -74,7 +71,7 @@ const UpdateButton = (contents: any) => {
           <input onChange={onHandleChange} value={name} name='name' />
           <input onChange={onHandleChange} value={age} name='age' />
           <input onChange={onHandleChange} value={address} name='address' />
-          <input onChange={onHandleChange} value={phone} name='number' />
+          <input onChange={onHandleChange} value={phone} name='phone' />
         </div>
       ) : (
         false

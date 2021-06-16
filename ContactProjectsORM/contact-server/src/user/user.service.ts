@@ -20,43 +20,38 @@ export class UserService {
   }
   //부분 조회
   findOne(id: number): Promise<UserEntity> {
-    const user = this.userRepository.findOne(id);
+    // const user = await this.userRepository.findOne(id);
 
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found.`);
-    }
+    // if (!user) {
+    //   throw new NotFoundException(`User with ID ${id} not found.`);
+    // }
 
-    return user;
+    return this.userRepository.findOne(id);
   }
   //생성
   // async create(userData: UserEntity): Promise<UserEntity[]> {
-  create(userData: any) {
-    this.userRepository.save(userData);
-    // return Object.assign({
-    //   data: { ...userData },
-    //   statusCode: 201,
-    //   statusMsg: `saved successfully`,
-    // });
+  async create(userData: any) {
+    await this.userRepository.save(userData);
+
     return this.userRepository.find();
   }
   //수정
   async update(id: number, updateData: any) {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.findOne(id);
 
-    user.id = id;
+    // user.id = id;
     user.name = updateData.name;
     user.age = updateData.age;
     user.address = updateData.address;
     user.phone = updateData.phone;
 
-    // return this.userRepository.save(user);
-    this.userRepository.save(user);
+    await this.userRepository.save(user);
 
     return this.userRepository.find();
   }
-  //부분 삭제
-  deleteOne(userId: number): Promise<UserEntity[]> {
-    this.userRepository.delete(userId);
+  //부분 삭제 async를 사용안하면 다음 이벤트때 발생한다.
+  async deleteOne(userId: number): Promise<UserEntity[]> {
+    await this.userRepository.delete(userId);
 
     return this.userRepository.find();
   }

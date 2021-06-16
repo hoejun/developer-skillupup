@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { IProfile } from '../type/index';
+import { IProfile } from '../type/interfaces';
 
 //검색
 const searchState = atom<string>({

@@ -1,17 +1,20 @@
 import { useSetRecoilState } from 'recoil';
-import { profileState, responseState } from '../../recoil/recoilAPI';
+import { profileState } from '../../recoil/recoilAPI';
 import { requests } from '../../config/api';
-import { IProfile } from '../../type/index';
+import { IProfile } from '../../type/interfaces';
 
-const RemoveButton = (id) => {
-  // const setProfile = useSetRecoilState<IProfile[]>(profileState);
-  const setResponseValue = useSetRecoilState(responseState);
+interface IProfileProps {
+  contents: IProfile;
+}
+
+const RemoveButton = ({ contents }: IProfileProps) => {
+  const setProfile = useSetRecoilState<IProfile[]>(profileState);
 
   const onHandleRemove = () => {
     requests
-      .delete(`user/${id.id}`)
+      .delete(`user/${contents.id}`)
       .then((res) => {
-        setResponseValue(res.data);
+        setProfile(res.data);
       })
       .catch((error) => {
         console.log(error);

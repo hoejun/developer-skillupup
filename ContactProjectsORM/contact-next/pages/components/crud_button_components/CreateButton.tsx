@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { profileState, responseState } from '../../recoil/recoilAPI';
-import { IProfile } from '../../type/index';
+import { IProfile } from '../../type/interfaces';
 import { requests } from '../../config/api';
 
 const CreateButton = () => {
-  // const [profileRecoil, setProfileRecoil] =
-  //   useRecoilState<IProfile[]>(profileState);
-  const [responseValue, setResponseValue] = useRecoilState(responseState);
+  const setProfile = useSetRecoilState<IProfile[]>(profileState);
+  const responseValue = useRecoilValue(responseState);
   const [text, setText] = useState<IProfile>({
     id: 0,
     name: '',
@@ -38,15 +37,15 @@ const CreateButton = () => {
         phone: text.phone,
       })
       .then((res) => {
-        setResponseValue(res.data);
+        setProfile(res.data);
         //초기화
-        // setText({
-        //   id: 0,
-        //   name: '',
-        //   age: 0,
-        //   address: '',
-        //   phone: '',
-        // });
+        setText({
+          id: 0,
+          name: '',
+          age: 0,
+          address: '',
+          phone: '',
+        });
       })
       .catch((error) => {
         console.log(error);

@@ -25,9 +25,8 @@ export class UserController {
   }
   @Post()
   // async create(@Body() userData: UserEntity) {
-  async create(@Body() userData: any) {
-    console.log(userData);
-    return await this.userService.create(userData);
+  create(@Body() userData: any) {
+    return this.userService.create(userData);
   }
   @Patch('/:id')
   // async patch(@Param('id') userId: number, @Body() updateData: UpdateUserDto) {
@@ -35,9 +34,9 @@ export class UserController {
     return await this.userService.update(userId, updateData);
   }
   @Delete('/:id')
-  async remove(@Param('id') userId: number) {
+  remove(@Param('id') userId: number) {
     //Param으로 넘어 오기 때문에 string으로 되어있음.. 형변환 해야한다. transform:true
-    return await this.userService.deleteOne(userId);
+    return this.userService.deleteOne(userId);
   }
 
   // @Get()

@@ -1,9 +1,9 @@
 export interface IInformation {
-  id: number;
-  name: string;
-  age: number;
-  address: string;
-  number: string;
+  id: number | undefined;
+  name: string | undefined;
+  age: number | undefined;
+  address: string | undefined;
+  number: string | undefined;
 }
 
 // export type { IInformation };

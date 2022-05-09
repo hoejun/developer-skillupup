@@ -14,46 +14,62 @@ const Information = () => {
     number: '',
   });
 
-  const [informationRecoil, setInformationRecoil] =
-    useRecoilState<IInformation | undefined>(informationState);
-  const [profileRecoil, setProfileRecoil] =
-    useRecoilState<IInformation[]>(profileState);
+  const [informationRecoil, setInformationRecoil] = useRecoilState<any>(informationState);
+  const [profileRecoil, setProfileRecoil] = useRecoilState<IInformation[]>(profileState);
 
-  const { name, age, address, number } = text;
+  // const { name, age, address, number } = text;
 
   const onHandleChange = (e: any) => {
-    const { value, name } = e.target;
-    setText({
-      ...text,
+    const { name, value } = e.target;
+    console.log(value);
+    // console.log(informationRecoil?.id);
+    // const id = 'id';
+    // setText({
+    //   ...text,
+    //   ['id']: informationRecoil?.id,
+    //   [name]: value,
+    // });
+    // setInformationRecoil({
+    //   // ...informationRecoil,
+    //   // ['id']: informationRecoil?.id,
+    //   [name]: value,
+    // });
+    setInformationRecoil({
+      ...informationRecoil,
       [name]: value,
     });
   };
 
-  const onHandleToggle = (info: any) => {
-    setText({
-      id: info.id,
-      name: info.name,
-      age: info.age,
-      address: info.address,
-      number: info.number,
-    });
+  // const onHandleToggle = (info: any) => {
+  const onHandleToggle = () => {
+    // setText({
+    //   id: info.id,
+    //   name: info.name,
+    //   age: info.age,
+    //   address: info.address,
+    //   number: info.number,
+    // });
+    // console.log(text.id);
     if (!toggle) {
       setToggle(true);
     } else {
       // const newFilter = profileRecoil.filter((item) => item.id === info.id);
+      console.log(profileRecoil);
+
       setProfileRecoil(
         profileRecoil.map((user: IInformation) =>
-          user.id === info.id
+          user.id === informationRecoil.id
             ? {
-                id: text.id,
-                name: text.name,
-                age: text.age,
-                address: text.address,
-                number: text.number,
+                id: informationRecoil.id,
+                name: informationRecoil.name,
+                age: informationRecoil.age,
+                address: informationRecoil.address,
+                number: informationRecoil.number,
               }
             : user
         )
       );
+      setInformationRecoil(informationRecoil);
       setToggle(false);
     }
   };
@@ -68,21 +84,22 @@ const Information = () => {
           <div>
             {toggle ? (
               <div>
-                <input onChange={onHandleChange} value={name} name='name' />
-                <input onChange={onHandleChange} value={age} name='age' />
-                <input
-                  onChange={onHandleChange}
-                  value={address}
-                  name='address'
-                />
-                <input onChange={onHandleChange} value={number} name='number' />
+                {/* <input onChange={onHandleChange} value={text.name} name='name' />
+                <input onChange={onHandleChange} value={text.age} name='age' />
+                <input onChange={onHandleChange} value={text.address} name='address' />
+                <input onChange={onHandleChange} value={text.number} name='number' /> */}
+                <input onChange={onHandleChange} name={'name'} value={informationRecoil.name} />
+                <input onChange={onHandleChange} name='age' value={informationRecoil.age} />
+                <input onChange={onHandleChange} name='address' value={informationRecoil.address} />
+                <input onChange={onHandleChange} name='number' value={informationRecoil.number} />
               </div>
             ) : (
               false
             )}
             <button
               type='submit'
-              onClick={() => onHandleToggle(informationRecoil)}
+              // onClick={() => onHandleToggle(informationRecoil)}
+              onClick={onHandleToggle}
             >
               {toggle ? '완료' : '수정'}
             </button>
